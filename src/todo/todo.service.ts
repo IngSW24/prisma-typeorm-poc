@@ -16,12 +16,16 @@ export class TodoService {
     private readonly todoRepository: Repository<Todo>,
   ) {}
 
-  async findAll() {
+  findAll() {
     return this.todoRepository.find();
   }
 
   create(todo: Partial<Todo>) {
     return this.todoRepository.save(todo);
+  }
+
+  update(id: string, todo: Partial<Todo>) {
+    return this.todoRepository.update(id, todo);
   }
 
   delete(id: string) {

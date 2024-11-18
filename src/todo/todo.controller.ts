@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
@@ -16,7 +17,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
  * Here the controller endpoints can be configured and exposed
  */
 
-@ApiTags('example')
+@ApiTags('Todos')
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
@@ -36,5 +37,10 @@ export class TodoController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.todoService.delete(id);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() todo: Todo) {
+    return this.todoService.update(id, todo);
   }
 }

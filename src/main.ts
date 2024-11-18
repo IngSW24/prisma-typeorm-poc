@@ -7,8 +7,8 @@ async function bootstrap() {
 
   // set up swagger for API docs
   const config = new DocumentBuilder()
-    .setTitle('Example API')
-    .setDescription('Example API description')
+    .setTitle('Todos API')
+    .setDescription('A simple Todo API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
