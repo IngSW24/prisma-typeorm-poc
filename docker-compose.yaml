@@ -1,40 +1,97 @@
 services:
 
+  # web app service
   webapp:
+
+    # tells to use dockerfile in `webapp` folder
+    # with `dev` stage (development)
     build: 
       context: webapp
       target: dev
+
+    # the service will be restarted unless it's manually stopped
     restart: unless-stopped
+
+    # the service is served on port 5173 of the container
+    # and it's mapped to port 8082 of the host machine
     ports:
       - "8082:5173"
+
+    # use volume binding to bind the local `webapp` folder to the
+    # container's `app` folder. This way every change we make to the
+    # code is reflected in the container
+    # 
+    # It also saves the content of `app/node_modules` so we don't
+    # have to reinstall dependencies everytime we start the container
     volumes:
       - ./webapp:/app
       - /app/node_modules
+
+    # depends on DB and API, so won't start before them
     depends_on:
       - "db"
       - "nest"
+
+    # this is the starting command for the container, in this case
+    # it's `npm run dev` since we are gonna run in development with
+    # watch mode, fast refresh and all the other dev features
     command: npm run dev
 
+
+  # api service
   nest:
+    #
+    # tells to use dockerfile in `webapp` folder
+    # with `dev` stage (development)
     build: 
       context: .
-      dockerfile: Dockerfile
       target: dev
+
+    # the service will be restarted unless it's manually stopped
     restart: unless-stopped
+
+    # the service is served on port 3000 of the container
+    # and it's mapped to port 8081 of the host machine
     ports:
       - "8081:3000"
+
+    # use volume binding to bind the local folder to the
+    # container's `app` folder. This way every change we make to the
+    # code is reflected in the container
+    # 
+    # It also saves the content of `app/node_modules` so we don't
+    # have to reinstall dependencies everytime we start the container
     volumes:
       - .:/app
       - /app/node_modules
+
+    # depends on DB, so won't start before it
     depends_on:
       - "db"
+
+    # this is the starting command for the container, in this case
+    # it's `npm run dev` since we are gonna run in development with
+    # watch mode, fast refresh and all the other dev features
     command: npm run start:dev
 
+  # db service
   db: 
+    # using publicly available postgresql image
     image: postgres
+
+    # always restarts, even if it's manually stopped
     restart: always
+
+    # defines some environment variables to specify the pwd, user
+    # and db name. The environment variables are read from the `.env`
+    # file in the local directory (see .env.compose.example)
     environment:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_DB: ${DATABASE_NAME}
+
+    # NOTE: since no volume mapping is happening in the DB container
+    # the container will loose all its data as soon as the stack in shut down
+    # To make db data persistent we should map it to a volume as well, but
+    # in this simple app it's better to have a fresh db on every start
 
