@@ -1,12 +1,23 @@
 services:
 
+  nest:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "8081:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - "db"
+    command: npm run start:dev
+
   db: 
     image: postgres
     restart: always
-    # volumes:
-    #   - mm_website_pgdata:/var/lib/postgresql/data
-    ports:
-      - 7777:5432
     environment:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_USER: ${DATABASE_USERNAME}
