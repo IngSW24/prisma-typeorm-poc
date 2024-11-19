@@ -5,8 +5,10 @@ export type Todo = {
   completed: boolean;
 };
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8081';
+
 export const fetchTodos = async (): Promise<Todo[]> => {
-  const response = await fetch('http://localhost:8081/todo', {
+  const response = await fetch(`${API_BASE}/todo`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -21,7 +23,7 @@ export const fetchTodos = async (): Promise<Todo[]> => {
 };
 
 export const createTodo = async (newTodo: Omit<Todo, 'id'>): Promise<Todo> => {
-  const response = await fetch('http://localhost:8081/todo', {
+  const response = await fetch(`${API_BASE}/todo`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +40,7 @@ export const createTodo = async (newTodo: Omit<Todo, 'id'>): Promise<Todo> => {
 };
 
 export const updateTodo = async (updatedTodo: Todo): Promise<Todo> => {
-  const response = await fetch(`http://localhost:8081/todo/${updatedTodo.id}`, {
+  const response = await fetch(`${API_BASE}/todo/${updatedTodo.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -55,7 +57,7 @@ export const updateTodo = async (updatedTodo: Todo): Promise<Todo> => {
 };
 
 export const deleteTodo = async (id: number): Promise<number> => {
-  const response = await fetch(`http://localhost:8081/todo/${id}`, {
+  const response = await fetch(`${API_BASE}/todo/${id}`, {
     method: 'DELETE',
     headers: {
       Accept: '*/*',
