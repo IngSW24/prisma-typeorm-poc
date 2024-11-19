@@ -15,12 +15,13 @@ RUN npm install --frozen-lockfile
 
 USER node
 
+# -----
+
 FROM node:18-alpine as build
 
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 
-# Set to production environment
 ENV NODE_ENV production
 
 # Re-create non-root user for Docker if not exists
@@ -42,9 +43,8 @@ RUN npm install --production && npm cache clean --force
 # Set Docker as a non-root user
 USER node
 
-#
-# 🚀 Production Server
-#
+# -----
+
 FROM node:18-alpine as prod
 
 WORKDIR /app
