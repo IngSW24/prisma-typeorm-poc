@@ -1,5 +1,20 @@
 services:
 
+  webapp:
+    build: 
+      context: webapp
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "8082:5173"
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
+    depends_on:
+      - "db"
+      - "nest"
+    command: npm run dev
+
   nest:
     build: 
       context: .

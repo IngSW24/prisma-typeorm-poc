@@ -23,7 +23,7 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.todoService.findAll();
