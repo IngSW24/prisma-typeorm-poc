@@ -18,5 +18,6 @@ jobs:
       - name: Build the Docker image
         run: |
           version=$(echo $GITHUB_REF_NAME | grep -o [0-9]\.*)
+          cd webapp/
           docker build . --tag ghcr.io/ingsw24/todos-web:$version
           docker push ghcr.io/ingsw24/todos-web:$version
