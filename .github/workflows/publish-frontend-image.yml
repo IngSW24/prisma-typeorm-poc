@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'web-v*'
+env:
+  VITE_API_BASE: "${{ vars.VITE_API_BASE }}"
 jobs:
   publish-image:
     runs-on: ubuntu-latest
@@ -19,5 +21,5 @@ jobs:
         run: |
           version=$(echo $GITHUB_REF_NAME | grep -o [0-9]\.*)
           cd webapp/
-          docker build . --tag ghcr.io/ingsw24/todos-web:$version
+          docker build --build-arg VITE_API_BASE=$VITE_API_BASE . --tag ghcr.io/ingsw24/todos-web:$version
           docker push ghcr.io/ingsw24/todos-web:$version
