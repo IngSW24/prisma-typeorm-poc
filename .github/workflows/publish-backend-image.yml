@@ -18,5 +18,5 @@ jobs:
       - name: Build the Docker image
         run: |
           version=$(echo $GITHUB_REF_NAME | grep -o [0-9]\.*)
-          docker build . --tag ghcr.io/ingsw24/todos-api:$version
-          docker push ghcr.io/ingsw24/todos-api:$version
+          docker build . --tag ghcr.io/ingsw24/prisma-todos-api:$version
+          docker push ghcr.io/ingsw24/prisma-todos-api:$version

@@ -19,5 +19,5 @@ jobs:
         run: |
           version=$(echo $GITHUB_REF_NAME | grep -o [0-9]\.*)
           cd webapp/
-          docker build . --tag ghcr.io/ingsw24/todos-web:$version
-          docker push ghcr.io/ingsw24/todos-web:$version
+          docker build . --tag ghcr.io/ingsw24/prisma-todos-web:$version
+          docker push ghcr.io/ingsw24/prisma-todos-web:$version
