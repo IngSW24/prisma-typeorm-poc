@@ -29,6 +29,8 @@ COPY --chown=node:node . .
 RUN npm install
 RUN chown -R node:node node_modules
 
+RUN chown -R node:node node_modules
+
 # switch to user node to avoid running as root
 USER node
 
@@ -39,6 +41,9 @@ USER node
 FROM node:18-alpine as build
 
 WORKDIR /app
+
+ARG VITE_API_BASE ${VITE_API_BASE}
+ENV VITE_API_BASE ${VITE_API_BASE}
 
 ENV NODE_ENV production
 
