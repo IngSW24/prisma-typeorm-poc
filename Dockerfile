@@ -33,6 +33,8 @@ COPY --chown=node:node . .
 # install dependencies in the container
 RUN npm install --frozen-lockfile
 
+RUN chown -R node:node node_modules
+
 # set the running user as node to avoid running as root
 USER node
 

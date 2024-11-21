@@ -28,6 +28,8 @@ COPY --chown=node:node . .
 # install dependencies
 RUN npm install
 
+RUN chown -R node:node node_modules
+
 # switch to user node to avoid running as root
 USER node
 
