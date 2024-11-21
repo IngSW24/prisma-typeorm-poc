@@ -2,8 +2,11 @@
 
 Using:
 
-- Swagger
-- TypeORM with migrations
+- NestJS + Swagger + TypeORM with migrations
+- React for the web application
+- Docker for containerization
+- docker-compose for local development and production orchestration
+- GithubCI pipelines for docker image build process on tag push
 
 ## How to
 
