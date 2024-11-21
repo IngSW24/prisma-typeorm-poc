@@ -1,0 +1,52 @@
+services:
+
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+
+  frontend:
+    image: ghcr.io/ingsw24/todos-web:0.0.2
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE: ${API_EXT_URI}
+    depends_on:
+      - "api"
+
+  api:
+    image: ghcr.io/ingsw24/todos-api:0.0.1
+    restart: unless-stopped
+    depends_on:
+      - "db"
+    environment:
+      DATABASE_TYPE: postgres
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+  nginx:
+    image: nginx:mainline-alpine
+    depends_on:
+      - "api"
+      - "frontend"
+    volumes:
+      - "./nginx.conf:/etc/nginx/conf.d/default.conf"
+    ports:
+      - 80:80
+
+volumes:
+  pgdata:
+    external: true
