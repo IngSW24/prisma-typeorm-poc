@@ -15,7 +15,7 @@ Using:
 - Start the stack by running `docker compose up`
     - (this will take a bunch of minutes the first time since it has to build images, then it will be faster)
 - Navigate to `localhost:8081/api` to see the Swagger interface
-- Navigate to `localhost:8082/api` to see the web application
+- Navigate to `localhost:8082` to see the web application
 
 **Note**: `GET /todos` requires "authentication" so you must either include an authorization header containing the value 'test' or use swagger UI (top right corner) to add an authorization token ('test').
 
