@@ -27,6 +27,7 @@ COPY --chown=node:node . .
 
 # install dependencies
 RUN npm install
+RUN chown -R node:node node_modules
 
 RUN chown -R node:node node_modules
 

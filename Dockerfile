@@ -32,6 +32,7 @@ COPY --chown=node:node . .
 
 # install dependencies in the container
 RUN npm install --frozen-lockfile
+RUN chown -R node:node node_modules
 
 RUN chown -R node:node node_modules
 
@@ -96,13 +97,16 @@ RUN adduser --system --uid 1001 node || true
 # we will also need package.json since it contains scripts for execution
 COPY --chown=node:node --from=build /app/dist dist
 COPY --chown=node:node --from=build /app/node_modules node_modules
+COPY --chown=node:node --from=build /app/prisma prisma
 COPY --chown=node:node --from=build /app/package.json package.json
 
 # Set Docker as non-root user
 USER node
 
+
 # This is the final command of the image. It will be used by docker as the command
 # that starts the image. The container will die when this command fails or when this
 # command is stopped. So, in this case, the container starts by running the production
 # server and runs until the production server is stopped.
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:prod:migrate"]
+
