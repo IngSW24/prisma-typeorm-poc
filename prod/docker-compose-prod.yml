@@ -8,8 +8,6 @@ services:
   frontend:
     image: ghcr.io/ingsw24/todos-web:0.0.2
     restart: unless-stopped
-    environment:
-      VITE_API_BASE: ${API_EXT_URI}
     depends_on:
       - "api"
 
