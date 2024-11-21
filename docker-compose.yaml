@@ -69,10 +69,16 @@ services:
     depends_on:
       - "db"
 
+    environment:
+
+      DATABASE_URL: postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?schema=public
+
+
     # this is the starting command for the container, in this case
     # it's `npm run dev` since we are gonna run in development with
     # watch mode, fast refresh and all the other dev features
     command: npm run start:dev
+
 
   # db service
   db: 

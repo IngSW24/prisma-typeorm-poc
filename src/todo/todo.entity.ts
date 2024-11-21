@@ -1,28 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Todo } from '@prisma/client';
 
 /**
  * This is mapped to the DB with migrations
  */
 
-@Entity()
-export class Todo {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class TodoEntity implements Todo {
+  @ApiProperty()
+  id: number;
 
-  @Column()
   @ApiProperty()
   title: string;
 
-  @Column({ nullable: true })
-  @ApiProperty()
+  @ApiProperty({ required: false, nullable: true })
   description: string;
 
-  @Column({ default: 'John Doe' })
-  @ApiProperty()
+  @ApiProperty({ required: false, default: 'John Doe' })
   author: string;
 
-  @Column({ default: false })
   @ApiProperty()
   completed: boolean;
 }

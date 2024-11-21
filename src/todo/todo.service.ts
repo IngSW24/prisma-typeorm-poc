@@ -1,34 +1,41 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
-import { Todo } from './todo.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-/**
- * This implements the business logic. Since this is only
- * a CRUD interface, it uses the TypeORM repository to read/save/delete
- * data from the DB
- */
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/shared/prisma.service';
+import { UpdateTodoDto } from './dto/update-todo.dto';
+import { CreateTodoDto } from './dto/create-todo.dto';
 
 @Injectable()
 export class TodoService {
-  constructor(
-    @InjectRepository(Todo)
-    private readonly todoRepository: Repository<Todo>,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   findAll() {
-    return this.todoRepository.find();
+    return this.prismaService.todo.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
   }
 
-  create(todo: Partial<Todo>) {
-    return this.todoRepository.save(todo);
+  create(data: CreateTodoDto) {
+    console.log('data is', data);
+    return this.prismaService.todo.create({
+      data,
+    });
   }
 
-  update(id: string, todo: Partial<Todo>) {
-    return this.todoRepository.update(id, todo);
+  update(id: number, data: UpdateTodoDto) {
+    return this.prismaService.todo.update({
+      data,
+      where: {
+        id,
+      },
+    });
   }
 
-  delete(id: string) {
-    this.todoRepository.delete(id);
+  delete(id: number) {
+    return this.prismaService.todo.delete({
+      where: {
+        id,
+      },
+    });
   }
 }
