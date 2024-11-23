@@ -14,6 +14,7 @@ Using:
 - Copy `.env.example` by running `cp .env.example .env`
 - Start the stack by running `docker compose up`
     - (this will take a bunch of minutes the first time since it has to build images, then it will be faster)
+- Apply the migrations by running `docker compose exec nest npm run migrate-dev`
 - Navigate to `localhost:8081/api` to see the Swagger interface
 - Navigate to `localhost:8082` to see the web application
 
